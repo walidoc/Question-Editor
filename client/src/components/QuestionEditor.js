@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { getQuestion, removeColumn, removeRow, addColumn, addRow, addImage, selectValue } from '../actions/questionActions'
 import EditModal from './EditModal'
 import Summary from './Summary'
-
+import TColumns from './TColumns'
 
 
 class QuestionEditor extends Component {
@@ -80,44 +80,10 @@ class QuestionEditor extends Component {
                         <thead>
                             <tr>
                                 <th></th>
-                                <TransitionGroup component={null}>
-                                {
-                                    columns.map(({label, val, _id, img}) => (
-                                        <CSSTransition key={_id} appear={true} timeout={500} classNames="fade">
-                                            <th >
-                                                <input
-                                                    style={{display: 'none'}} 
-                                                    type="file" 
-                                                    onChange={(e) => this.onAddImageClicked(e, this.currentId, 'columns')} 
-                                                    accept="image/*"
-                                                    ref={imageInput => this.colImageInput =  imageInput}
-                                                />
-
-                                                <img src={img} 
-                                                    alt="" 
-                                                    onClick={() => {
-                                                        this.currentId = _id
-                                                        this.colImageInput.click()}} 
-                                                    className="thead-image"
-                                                />
-                                                
-                                                <p  className="labels"
-                                                    onClick={() => this.openEditModal(label, _id, 'columns')}>
-                                                    {label}
-                                                </p>
-
-                                                <FontAwesomeIcon 
-                                                    icon="times" 
-                                                    color="#fd7e14"
-                                                    size="sm"
-                                                    style={{cursor: "pointer"}}
-                                                    onClick={() => this.onRemoveColumnClicked(_id, val)}
-                                                />
-                                            </th>
-                                        </CSSTransition>
-                                    ))
-                                }
-                                </TransitionGroup>
+                                <TColumns 
+                                    columns={columns}
+                                    openEditModal={this.openEditModal}
+                                />
                                 <th>
                                     <FontAwesomeIcon 
                                         icon="plus"

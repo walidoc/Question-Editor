@@ -7,15 +7,15 @@ export default ({ columns, rows }) => {
     let longRowLabel = 0
     let longColLabel = 0
 
-    for(const col of columns) {  
+    columns.forEach(col => {
         if(col.img.includes('uploads')) nbImages++
         if(col.label.length > longColLabel) longColLabel = col.label.length
-    }
+    })
 
-    for(const row of rows) {
+    rows.forEach(row => {
         if(row.img.includes('uploads')) nbImages++
         if(row.label.length > longRowLabel) longRowLabel = row.label.length
-    }
+    })
 
     return (
             <div className="summary">

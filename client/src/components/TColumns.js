@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
-import { removeColumn, addImage } from '../actions/questionActions'
+import { removeColumn } from '../actions/questionActions'
 
 
 class TColumns extends Component {
@@ -11,18 +11,8 @@ class TColumns extends Component {
         this.props.removeColumn(id, val)
     }
 
-    onAddImageClicked = (e, imgId, imgColOrRow) => { 
-        if(e.target.files && e.target.files[0]) {
-            const image = e.target.files[0]
-            const fd = new FormData()
-            fd.append('img', image)
-            const imgData = { imgId, imgColOrRow, fd }
-            this.props.addImage(imgData)
-        }
-    }
-
     render() {
-        const { columns, openEditModal } = this.props
+        const { columns, openEditModal, onAddImageClicked } = this.props
 
         return (
             <TransitionGroup component={null}>
@@ -32,7 +22,7 @@ class TColumns extends Component {
                             <input
                                 style={{display: 'none'}} 
                                 type="file" 
-                                onChange={(e) => this.onAddImageClicked(e, this.currentId, 'columns')} 
+                                onChange={(e) => onAddImageClicked(e, this.currentId, 'columns')} 
                                 accept="image/*"
                                 ref={imageInput => this.colImageInput =  imageInput}
                             />
@@ -65,8 +55,7 @@ class TColumns extends Component {
     }
 }
 
-
 export default connect(
     null,
-    { removeColumn, addImage }
+    { removeColumn }
 )(TColumns)

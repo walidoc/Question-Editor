@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getQuestion, removeColumn, removeRow, addColumn, addRow, addImage, selectValue } from '../actions/questionActions'
+import { getQuestion, addColumn, addRow, addImage } from '../actions/questionActions'
 import EditModal from './EditModal'
 import Summary from './Summary'
 import TColumns from './TColumns'
+import TRows from './TRows'
 
 
 class QuestionEditor extends Component {
@@ -43,14 +43,6 @@ class QuestionEditor extends Component {
         this.props.addRow(row)
     }
 
-    onRemoveRowClicked = id => {
-        this.props.removeRow(id)
-    }
-
-    onRemoveColumnClicked = (id, val) => {
-        this.props.removeColumn(id, val)
-    }
-
     openEditModal = (label, id, colOrRow) => {
         const modalData = {label, id, colOrRow} 
         this.refs.editModal.getWrappedInstance().initModal(modalData)
@@ -66,11 +58,6 @@ class QuestionEditor extends Component {
         }
     }
 
-    onRadioButtonClicked = (e, id) => {
-        const val = e.currentTarget.value
-        this.props.selectValue({id, val})
-    }
-
     render() {
         const { columns, rows } = this.props.question
         return (
@@ -83,6 +70,7 @@ class QuestionEditor extends Component {
                                 <TColumns 
                                     columns={columns}
                                     openEditModal={this.openEditModal}
+                                    onAddImageClicked={this.onAddImageClicked}
                                 />
                                 <th>
                                     <FontAwesomeIcon 
@@ -95,63 +83,12 @@ class QuestionEditor extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <TransitionGroup component={null}>
-                            {
-                                rows.map(row => 
-                                    <CSSTransition key={row._id} appear={true} timeout={500} classNames="fade">
-                                        <tr>
-                                            <th>
-                                                <input
-                                                    style={{display: 'none'}} 
-                                                    type="file" 
-                                                    onChange={(e) => this.onAddImageClicked(e, this.currentId, 'rows')} 
-                                                    accept="image/*"
-                                                    ref={imageInput => this.rowImageInput =  imageInput}
-                                                />
-
-                                                <img src={row.img} 
-                                                    alt="" 
-                                                    onClick={() => {
-                                                        this.currentId = row._id
-                                                        this.rowImageInput.click()}} 
-                                                    className="tbody-image"
-                                                />
-
-                                                <p style={{fontStyle: "italic", cursor: "pointer"}} 
-                                                    onClick={() => this.openEditModal(row.label, row._id, 'rows')}>
-                                                    {row.label}
-                                                </p>
-
-                                            </th>
-                                            <TransitionGroup component={null}>
-                                            {
-                                                columns.map(col =>  
-                                                    <CSSTransition key={col._id} appear={true} timeout={500} classNames="fade">
-                                                        <td>
-                                                            <input 
-                                                                type="radio" 
-                                                                value={col.val} 
-                                                                checked={col.val === row.val}
-                                                                onChange={(e) => this.onRadioButtonClicked(e, row._id)} 
-                                                            />
-                                                        </td>   
-                                                    </CSSTransition>
-                                                )
-                                            }
-                                            </TransitionGroup>
-                                            <td>
-                                                <FontAwesomeIcon 
-                                                    icon="times"
-                                                    color="#fd7e14"
-                                                    style={{cursor: "pointer"}}
-                                                    onClick={() => this.onRemoveRowClicked(row._id)}
-                                                />
-                                            </td>
-                                        </tr>
-                                    </CSSTransition>
-                                )
-                            }
-                            </TransitionGroup>
+                            <TRows 
+                                rows={rows} 
+                                columns={columns}
+                                openEditModal={this.openEditModal}
+                                onAddImageClicked={this.onAddImageClicked}
+                            />
                             <tr>
                                 <th scope="row">
                                     <FontAwesomeIcon 
@@ -183,5 +120,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    { getQuestion, addColumn, addRow , removeColumn, removeRow, addImage, selectValue }
+    { getQuestion, addColumn, addRow, addImage }
 )(QuestionEditor)

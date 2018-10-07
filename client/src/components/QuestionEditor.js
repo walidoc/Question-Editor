@@ -59,51 +59,62 @@ class QuestionEditor extends Component {
     }
 
     render() {
-        const { columns, rows } = this.props.question
+        const { columns, rows, loading } = this.props.question
         return (
             <div className="question-container">
                 <div className="question-table">
-                    <Table responsive size="sm" borderless>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <TColumns 
+                    {loading ? (
+                        <div className="spinner">
+                            <FontAwesomeIcon 
+                                icon="spinner"
+                                spin
+                                style={{fontSize:"50px"}}
+                                color="#1AA3DD" 
+                            />
+                        </div>
+                    ) : (
+                        <Table responsive size="sm" borderless>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <TColumns 
+                                        columns={columns}
+                                        openEditModal={this.openEditModal}
+                                        onAddImageClicked={this.onAddImageClicked}
+                                    />
+                                    <th>
+                                        <FontAwesomeIcon 
+                                            icon="plus"
+                                            color="#28A745"
+                                            style={{cursor: "pointer", marginBottom: "70px"}}
+                                            onClick={this.onAddColumnClicked}
+                                        />
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <TRows 
+                                    rows={rows} 
                                     columns={columns}
                                     openEditModal={this.openEditModal}
                                     onAddImageClicked={this.onAddImageClicked}
                                 />
-                                <th>
-                                    <FontAwesomeIcon 
-                                        icon="plus"
-                                        color="#28A745"
-                                        style={{cursor: "pointer", marginBottom: "70px"}}
-                                        onClick={this.onAddColumnClicked}
-                                    />
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <TRows 
-                                rows={rows} 
-                                columns={columns}
-                                openEditModal={this.openEditModal}
-                                onAddImageClicked={this.onAddImageClicked}
-                            />
-                            <tr>
-                                <th scope="row">
-                                    <FontAwesomeIcon 
-                                        icon="plus"
-                                        color="#28A745"
-                                        style={{cursor: "pointer", marginLeft: "12px", marginTop: "20px"}}
-                                        onClick={this.onAddRowClicked}
-                                    />
-                                </th>
-                            </tr>
-                        </tbody>
-                    </Table>
+                                <tr>
+                                    <th scope="row">
+                                        <FontAwesomeIcon 
+                                            icon="plus"
+                                            color="#28A745"
+                                            style={{cursor: "pointer", marginLeft: "12px", marginTop: "20px"}}
+                                            onClick={this.onAddRowClicked}
+                                        />
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    )}
                     <EditModal ref="editModal" buttonLabel="Edit Label"/>
                 </div>
-                <Summary columns={columns} rows={rows} />
+                <Summary columns={columns} rows={rows} loading={loading}/>
             </div>
         );
       }

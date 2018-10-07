@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import QuestionEditor from './components/QuestionEditor'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrashAlt, faPlus, faTimes, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faPlus, faTimes, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Legend from './components/Legend'
 
-library.add(faTrashAlt, faPlus, faTimes, faPen);
+library.add(faTrashAlt, faPlus, faTimes, faPen, faSpinner);
 
 class App extends Component {
     render() {

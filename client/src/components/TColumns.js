@@ -44,7 +44,7 @@ class TColumns extends Component {
                                 icon="times" 
                                 color="#fd7e14"
                                 size="sm"
-                                style={{cursor: "pointer"}}
+                                style={{cursor: "pointer", "fontSize": "17px"}}
                                 onClick={() => this.onRemoveColumnClicked(_id, val)}
                             />
                         </th>

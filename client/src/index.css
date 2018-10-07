@@ -82,7 +82,13 @@ th, td {
     margin-bottom: 7px;
 }
 
-
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 370px;
+    /* height: 100%; */
+}
 
 .fade-enter {
     opacity: 0.01;

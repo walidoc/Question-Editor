@@ -65,7 +65,7 @@ class TRows extends Component {
                                 <FontAwesomeIcon 
                                     icon="times"
                                     color="#fd7e14"
-                                    style={{cursor: "pointer"}}
+                                    style={{cursor: "pointer", "fontSize": "17px"}}
                                     onClick={() => this.onRemoveRowClicked(row._id)}
                                 />
                             </td>

@@ -1,6 +1,7 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export default ({ columns, rows }) => {
+export default ({ columns, rows, loading }) => {
     const nbRows = rows.length
     const nbColumns = columns.length
     let nbImages = 0
@@ -19,14 +20,25 @@ export default ({ columns, rows }) => {
 
     return (
             <div className="summary">
-                <h5>Summary</h5>
-                <div>
-                    <p>Number of rows: { nbRows} </p>
-                    <p>Number of columns: { nbColumns} </p>
-                    <p>Number of images uploaded: { nbImages} </p>
-                    <p>Longest row label: { longRowLabel} </p>
-                    <p>Longest column label: { longColLabel} </p>
-                </div>
+                {loading ? (
+                    <div className="spinner">
+                        <FontAwesomeIcon 
+                            icon="spinner"
+                            spin
+                            style={{fontSize:"50px"}}
+                            color="#1AA3DD" 
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        <h5>Summary</h5>
+                        <p>Number of rows: { nbRows} </p>
+                        <p>Number of columns: { nbColumns} </p>
+                        <p>Number of images uploaded: { nbImages} </p>
+                        <p>Longest row label: { longRowLabel} </p>
+                        <p>Longest column label: { longColLabel} </p>
+                    </div>
+                )}
             </div>
         )
 }

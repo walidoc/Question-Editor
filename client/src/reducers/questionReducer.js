@@ -48,7 +48,11 @@ export default (state = initialState, action) => {
         case REMOVE_COLUMN:
             return {
                 ...state,
-                columns: state.columns.filter(col => col._id !== action.payload)
+                rows: state.rows.map(row => {
+                    if(row.val === action.payload.val) row.val = ''
+                    return row
+                }),
+                columns: state.columns.filter(col => col._id !== action.payload.id)
             }
         
         case EDIT_LABEL:

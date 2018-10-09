@@ -66,7 +66,7 @@ export const removeColumn = (id, val) => dispatch => {
                 .then(colRes => 
                     dispatch({
                         type: REMOVE_COLUMN,
-                        payload: id
+                        payload: {id, val}
                     })
                 )
         })

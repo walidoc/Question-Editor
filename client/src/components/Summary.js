@@ -9,24 +9,24 @@ export default ({ columns, rows, loading }) => {
     let longColLabel = 0
 
     columns.forEach(col => {
-        if(col.img.includes('uploads')) nbImages++
-        if(col.label.length > longColLabel) longColLabel = col.label.length
+        if (col.img.includes('uploads')) nbImages++
+        if (col.label.length > longColLabel) longColLabel = col.label.length
     })
 
     rows.forEach(row => {
-        if(row.img.includes('uploads')) nbImages++
-        if(row.label.length > longRowLabel) longRowLabel = row.label.length
+        if (row.img.includes('uploads')) nbImages++
+        if (row.label.length > longRowLabel) longRowLabel = row.label.length
     })
 
     return (
             <div className="summary">
                 {loading ? (
                     <div className="spinner">
-                        <FontAwesomeIcon 
-                            icon="spinner"
-                            spin
-                            style={{fontSize:"50px"}}
-                            color="#1AA3DD" 
+                        <FontAwesomeIcon
+                          icon="spinner"
+                          spin
+                          style={{ fontSize: '50px' }}
+                          color="#1AA3DD"
                         />
                     </div>
                 ) : (
@@ -42,4 +42,3 @@ export default ({ columns, rows, loading }) => {
             </div>
         )
 }
-

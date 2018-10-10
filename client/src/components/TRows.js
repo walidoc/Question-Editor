@@ -6,10 +6,9 @@ import { selectValue, removeRow } from '../actions/questionActions'
 
 
 class TRows extends Component {
-
     onRadioButtonClicked = (e, id) => {
         const val = e.currentTarget.value
-        this.props.selectValue({id, val})
+        this.props.selectValue({ id, val })
     }
 
     onRemoveRowClicked = id => {
@@ -22,56 +21,59 @@ class TRows extends Component {
         return (
             <TransitionGroup component={null}>
                 {rows.map(row => 
-                    <CSSTransition key={row._id} appear={true} timeout={500} classNames="fade">
+                    <CSSTransition key={row._id} appear timeout={500} classNames="fade">
                         <tr>
                             <th>
                                 <input
-                                    style={{display: 'none'}} 
+                                    style={{ display: 'none' }} 
                                     type="file" 
                                     onChange={(e) => onAddImageClicked(e, this.currentId, 'rows')} 
                                     accept="image/*"
-                                    ref={imageInput => this.rowImageInput =  imageInput}
+                                    ref={imageInput => { this.rowImageInput = imageInput }}
                                 />
 
-                                <img src={row.img} 
+                                <img 
+                                    src={row.img} 
                                     alt="" 
                                     onClick={() => {
                                         this.currentId = row._id
-                                        this.rowImageInput.click()}} 
+                                        this.rowImageInput.click() 
+                                    }} 
                                     className="tbody-image"
                                 />
 
-                                <p style={{fontStyle: "italic", cursor: "pointer"}} 
-                                    onClick={() => openEditModal(row.label, row._id, 'rows')}>
+                                <p 
+                                    style={{ fontStyle: 'italic', cursor: 'pointer' }} 
+                                    onClick={() => openEditModal(row.label, row._id, 'rows')}
+                                >
                                     {row.label}
                                 </p>
 
                             </th>
                             <TransitionGroup component={null}>
                                 {columns.map(col =>  
-                                    <CSSTransition key={col._id} appear={true} timeout={500} classNames="fade">
+                                    <CSSTransition key={col._id} appear timeout={500} classNames="fade">
                                         <td>
                                             <input 
                                                 type="radio" 
                                                 value={col.val} 
                                                 checked={col.val === row.val}
-                                                onChange={(e) => this.onRadioButtonClicked(e, row._id)} 
+                                                onChange={(e) => 
+                                                    this.onRadioButtonClicked(e, row._id)} 
                                             />
                                         </td>   
-                                    </CSSTransition>
-                                )}
+                                    </CSSTransition>)}
                             </TransitionGroup>
                             <td>
                                 <FontAwesomeIcon 
                                     icon="times"
                                     color="#fd7e14"
-                                    style={{cursor: "pointer", "fontSize": "17px"}}
+                                    style={{ cursor: 'pointer', fontSize: '17px' }}
                                     onClick={() => this.onRemoveRowClicked(row._id)}
                                 />
                             </td>
                         </tr>
-                    </CSSTransition>
-                )}
+                    </CSSTransition>)}
             </TransitionGroup>
         )
     }

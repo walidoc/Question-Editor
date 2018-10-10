@@ -1,4 +1,4 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 import { connect } from 'react-redux'
 import { editLabel } from '../actions/questionActions'
@@ -12,10 +12,9 @@ class EditModal extends Component {
             id: '',
             colOrRow: ''
         };
-
     }
 
-    initModal = ({label, id, colOrRow}) => {
+    initModal = ({ label, id, colOrRow }) => {
         this.setState({
             modal: true,
             label,
@@ -25,9 +24,7 @@ class EditModal extends Component {
     }
 
     toggle = () => {
-        this.setState({
-            modal: !this.state.modal
-        });
+        this.setState(state => ({ modal: !state.modal }));
     }
 
     handleLabelChange = (e) => {

@@ -3,7 +3,13 @@ import { Table } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getQuestion, addColumn, addRow, addImage } from '../actions/questionActions'
+import {
+    getQuestion,
+    addColumn,
+    addRow,
+    addImage,
+}
+from '../actions/questionActions'
 import EditModal from './EditModal'
 import Summary from './Summary'
 import TColumns from './TColumns'
@@ -11,7 +17,6 @@ import TRows from './TRows'
 
 
 class QuestionEditor extends Component {
-
     componentDidMount() {
         this.props.getQuestion()
     }
@@ -19,17 +24,17 @@ class QuestionEditor extends Component {
     genNewColOrRow = (colOrRow) => {
         const { question } = this.props
         let newIdx = 0
-        const length = question[colOrRow].length
-        if(length) { 
+        const { length } = question[colOrRow]
+        if (length) {
             newIdx = question[colOrRow][length - 1].idx
         }
-        newIdx ++
-        if(colOrRow === 'columns') {
-            const labelAndVal = 'col' + newIdx.toString()
-            return {label: labelAndVal, val: labelAndVal, idx: newIdx}
-        } else if(colOrRow === 'rows') {
-            const label = 'row' + newIdx.toString()
-            return {label, idx: newIdx}
+        newIdx++
+        if (colOrRow === 'columns') {
+            const labelAndVal = `col${newIdx.toString()}`
+            return { label: labelAndVal, val: labelAndVal, idx: newIdx }
+        } if (colOrRow === 'rows') {
+            const label = `row${newIdx.toString()}`
+            return { label, idx: newIdx }
         }
     }
 
@@ -44,12 +49,12 @@ class QuestionEditor extends Component {
     }
 
     openEditModal = (label, id, colOrRow) => {
-        const modalData = {label, id, colOrRow} 
+        const modalData = { label, id, colOrRow }
         this.refs.editModal.getWrappedInstance().initModal(modalData)
     }
 
-    onAddImageClicked = (e, imgId, imgColOrRow) => { 
-        if(e.target.files && e.target.files[0]) {
+    onAddImageClicked = (e, imgId, imgColOrRow) => {
+        if (e.target.files && e.target.files[0]) {
             const image = e.target.files[0]
             const fd = new FormData()
             fd.append('img', image)
@@ -65,56 +70,56 @@ class QuestionEditor extends Component {
                 <div className="question-table">
                     {loading ? (
                         <div className="spinner">
-                            <FontAwesomeIcon 
-                                icon="spinner"
-                                spin
-                                style={{fontSize:"50px"}}
-                                color="#1AA3DD" 
+                            <FontAwesomeIcon
+                              icon="spinner"
+                              spin
+                              style={{ fontSize: '50px' }}
+                              color="#1AA3DD"
                             />
                         </div>
                     ) : (
                         <Table responsive size="sm" borderless>
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <TColumns 
-                                        columns={columns}
-                                        openEditModal={this.openEditModal}
-                                        onAddImageClicked={this.onAddImageClicked}
+                                    <th />
+                                    <TColumns
+                                      columns={columns}
+                                      openEditModal={this.openEditModal}
+                                      onAddImageClicked={this.onAddImageClicked}
                                     />
                                     <th>
-                                        <FontAwesomeIcon 
-                                            icon="plus"
-                                            color="#28A745"
-                                            style={{cursor: "pointer", marginBottom: "70px"}}
-                                            onClick={this.onAddColumnClicked}
+                                        <FontAwesomeIcon
+                                          icon="plus"
+                                          color="#28A745"
+                                          style={{ cursor: 'pointer', marginBottom: '70px' }}
+                                          onClick={this.onAddColumnClicked}
                                         />
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <TRows 
-                                    rows={rows} 
-                                    columns={columns}
-                                    openEditModal={this.openEditModal}
-                                    onAddImageClicked={this.onAddImageClicked}
+                                <TRows
+                                  rows={rows}
+                                  columns={columns}
+                                  openEditModal={this.openEditModal}
+                                  onAddImageClicked={this.onAddImageClicked}
                                 />
                                 <tr>
                                     <th scope="row">
-                                        <FontAwesomeIcon 
-                                            icon="plus"
-                                            color="#28A745"
-                                            style={{cursor: "pointer", marginLeft: "12px", marginTop: "20px"}}
-                                            onClick={this.onAddRowClicked}
+                                        <FontAwesomeIcon
+                                          icon="plus"
+                                          color="#28A745"
+                                          style={{ cursor: 'pointer', marginLeft: '12px', marginTop: '20px' }}
+                                          onClick={this.onAddRowClicked}
                                         />
                                     </th>
                                 </tr>
                             </tbody>
                         </Table>
                     )}
-                    <EditModal ref="editModal" buttonLabel="Edit Label"/>
+                    <EditModal ref="editModal" buttonLabel="Edit Label" />
                 </div>
-                <Summary columns={columns} rows={rows} loading={loading}/>
+                <Summary columns={columns} rows={rows} loading={loading} />
             </div>
         );
       }
@@ -122,14 +127,16 @@ class QuestionEditor extends Component {
 
 QuestionEditor.prototypes = {
     getQuestion: PropTypes.func.isRequired,
-    question: PropTypes.object.isRequired
+    question: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    question: state.question
+    question: state.question,
 })
 
 export default connect(
     mapStateToProps,
-    { getQuestion, addColumn, addRow, addImage }
+    {
+ getQuestion, addColumn, addRow, addImage,
+},
 )(QuestionEditor)
